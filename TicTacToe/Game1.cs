@@ -29,6 +29,7 @@ namespace TicTacToe
             };
             graphics.ApplyChanges();
             Content.RootDirectory = "Content";
+            IsMouseVisible = true;
         }
 
         /// <summary>
@@ -57,7 +58,7 @@ namespace TicTacToe
             DefaultSprite = Content.Load<Texture2D>("default");
             HorizontalSprite = Content.Load<Texture2D>("default");
             VerticalSprite = Content.Load<Texture2D>("default");
-            XSprite = Content.Load<Texture2D>("default");
+            XSprite = Content.Load<Texture2D>("x");
             OSprite = Content.Load<Texture2D>("default");
             DrawHelper = new DrawHelper(spriteBatch, DefaultSprite, XSprite, OSprite, VerticalSprite, HorizontalSprite);
         }
@@ -82,7 +83,21 @@ namespace TicTacToe
                 Exit();
 
             // TODO: Add your update logic here
-           
+            var mState = Mouse.GetState();
+
+            // пользователь нажал левую кнопку мыши
+            if (mState.LeftButton == ButtonState.Pressed && mRealesed == true)
+            {
+                Field.Click(mState.X, mState.Y);
+
+                mRealesed = false;
+            }
+
+            // пользователь отпустил левую кнопку мыши
+            if (mState.LeftButton == ButtonState.Released)
+            {
+                mRealesed = true;
+            }
             base.Update(gameTime);
         }
 

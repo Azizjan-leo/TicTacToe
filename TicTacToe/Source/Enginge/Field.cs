@@ -33,5 +33,13 @@ namespace TicTacToe.Source.Enginge
                 helper.DrawCell(cell);
             }
         }
+
+        public void Click(int x, int y)
+        {
+            foreach (var cell in Matrix)
+            {
+                cell.Click(true,x,y);
+            }
+        }
     }
 }

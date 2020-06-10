@@ -24,5 +24,21 @@ namespace TicTacToe.Source.Enginge
             Coordinates = new Point(i * 20 + i, j * 20 + j);
             State = state;
         }
+
+        /// <summary>
+        /// Изменяет статус клетки если она нажата
+        /// </summary>
+        /// <param name="shape">true = X, false = O</param>
+        /// <param name="x">Координата клика по Х</param>
+        /// <param name="y">Координата клика по У</param>
+        /// <returns></returns>
+        public bool Click(bool shape, int x, int y)
+        {
+            if(Coordinates.X <= x && Coordinates.X + 20 >= x && Coordinates.Y <= y && Coordinates.Y + 20 >= y)
+            {
+                State = CellState.X;
+            }
+            return true;
+        }
     }
 }
