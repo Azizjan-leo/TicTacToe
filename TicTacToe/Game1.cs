@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using TicTacToe.Source.Enginge;
 
 namespace TicTacToe
 {
@@ -12,9 +13,21 @@ namespace TicTacToe
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        public Game1()
+        bool mRealesed = true; // кнопка мыши (не зажата)
+
+        Field Field;
+        Texture2D DefaultSprite, XSprite, OSprite, VerticalSprite, HorizontalSprite; // Спрайты
+        DrawHelper DrawHelper;
+
+        public Game1(int n)
         {
-            graphics = new GraphicsDeviceManager(this);
+            Field = new Field(n);
+            graphics = new GraphicsDeviceManager(this)
+            {
+                PreferredBackBufferWidth = n * 21,  // set this value to the desired width of your window
+                PreferredBackBufferHeight = n * 21   // set this value to the desired height of your window
+            };
+            graphics.ApplyChanges();
             Content.RootDirectory = "Content";
         }
 
@@ -41,6 +54,12 @@ namespace TicTacToe
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            DefaultSprite = Content.Load<Texture2D>("default");
+            HorizontalSprite = Content.Load<Texture2D>("default");
+            VerticalSprite = Content.Load<Texture2D>("default");
+            XSprite = Content.Load<Texture2D>("default");
+            OSprite = Content.Load<Texture2D>("default");
+            DrawHelper = new DrawHelper(spriteBatch, DefaultSprite, XSprite, OSprite, VerticalSprite, HorizontalSprite);
         }
 
         /// <summary>
@@ -63,10 +82,11 @@ namespace TicTacToe
                 Exit();
 
             // TODO: Add your update logic here
-
+           
             base.Update(gameTime);
         }
 
+       
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
@@ -76,7 +96,9 @@ namespace TicTacToe
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
+            spriteBatch.Begin();
+            Field.DrawField(DrawHelper);
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
