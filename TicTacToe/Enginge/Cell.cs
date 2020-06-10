@@ -5,11 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TicTacToe.Source.Enginge
+namespace TicTacToe.Enginge
 {
-    public enum CellState { Default, X, O, Vertical, Horizontal }
+    public enum CellState { Default, X, O, VerticalX, VerticalO, HorizontalX, HorizontalO }
     public class Cell
     {
+        public int I, J; // индекс (местонахождение в матрице)
         public Point Coordinates { get; set; }
         public CellState State { get; set; }
 
@@ -21,6 +22,7 @@ namespace TicTacToe.Source.Enginge
         /// <param name="state">Состояние</param>
         public Cell(int i, int j, CellState state = CellState.Default)
         {
+            I = i; J = j; 
             Coordinates = new Point(i * 20 + i, j * 20 + j);
             State = state;
         }
@@ -28,17 +30,22 @@ namespace TicTacToe.Source.Enginge
         /// <summary>
         /// Изменяет статус клетки если она нажата
         /// </summary>
-        /// <param name="shape">true = X, false = O</param>
+        /// <param name="order">true = X, false = O</param>
         /// <param name="x">Координата клика по Х</param>
         /// <param name="y">Координата клика по У</param>
-        /// <returns></returns>
-        public bool Click(bool shape, int x, int y)
+        /// <returns>True в случае изменения статуса ячейки</returns>
+        public bool Click(bool order, int x, int y)
         {
+            if(State != CellState.Default)
+            {
+                return false;
+            }
             if(Coordinates.X <= x && Coordinates.X + 20 >= x && Coordinates.Y <= y && Coordinates.Y + 20 >= y)
             {
-                State = CellState.X;
+                State = (order) ? CellState.X : CellState.O;
+                return true;
             }
-            return true;
+            return false;
         }
     }
 }

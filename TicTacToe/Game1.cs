@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using TicTacToe.Source.Enginge;
+using TicTacToe.Enginge;
 
 namespace TicTacToe
 {
@@ -16,8 +16,10 @@ namespace TicTacToe
         bool mRealesed = true; // кнопка мыши (не зажата)
 
         Field Field;
-        Texture2D DefaultSprite, XSprite, OSprite, VerticalSprite, HorizontalSprite; // Спрайты
+        Texture2D DefaultSprite, XSprite, OSprite, VerticalXSprite, VerticalOSprite, HorizontalXSprite, HorizontalOSprite, FinBackgroundSprite; // Спрайты
         DrawHelper DrawHelper;
+
+        bool fin = false; // флаг окончания игры
 
         public Game1(int n)
         {
@@ -27,6 +29,7 @@ namespace TicTacToe
                 PreferredBackBufferWidth = n * 21,  // set this value to the desired width of your window
                 PreferredBackBufferHeight = n * 21   // set this value to the desired height of your window
             };
+            Window.Title = $"Баллы: игрок X - {Field.PointsX} | игрока O - {Field.PointsO}. Ход: Х"; 
             graphics.ApplyChanges();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -56,11 +59,14 @@ namespace TicTacToe
 
             // TODO: use this.Content to load your game content here
             DefaultSprite = Content.Load<Texture2D>("default");
-            HorizontalSprite = Content.Load<Texture2D>("default");
-            VerticalSprite = Content.Load<Texture2D>("default");
+            HorizontalXSprite = Content.Load<Texture2D>("horizontalX");
+            HorizontalOSprite = Content.Load<Texture2D>("horizontalO");
+            VerticalXSprite = Content.Load<Texture2D>("verticalX");
+            VerticalOSprite = Content.Load<Texture2D>("verticalO");
             XSprite = Content.Load<Texture2D>("x");
-            OSprite = Content.Load<Texture2D>("default");
-            DrawHelper = new DrawHelper(spriteBatch, DefaultSprite, XSprite, OSprite, VerticalSprite, HorizontalSprite);
+            OSprite = Content.Load<Texture2D>("o");
+            FinBackgroundSprite = Content.Load<Texture2D>("FinBackgroundSprite");
+            DrawHelper = new DrawHelper(spriteBatch, DefaultSprite, XSprite, OSprite, VerticalXSprite, VerticalOSprite, HorizontalXSprite, HorizontalOSprite);
         }
 
         /// <summary>
@@ -88,9 +94,22 @@ namespace TicTacToe
             // пользователь нажал левую кнопку мыши
             if (mState.LeftButton == ButtonState.Pressed && mRealesed == true)
             {
-                Field.Click(mState.X, mState.Y);
-
+                if(Field.Click(mState.X, mState.Y)) // если игрок поставил свой знак
+                {
+                    if(Field.IsFull()) // Если все ячейки игрового поля заняты
+                    {
+                        fin = true; // Выставляем флаг окончания игры
+                    }
+                    else // если свободные ячейки имеются, обновляем табло (Title окна)
+                    {
+                        string order = (Field.Order) ? "X" : "O";
+                        Window.Title = $"Баллы: игрок X - {Field.PointsX} | игрока O - {Field.PointsO}. Ход: {order}";
+                    }
+                    
+                }
+                
                 mRealesed = false;
+
             }
 
             // пользователь отпустил левую кнопку мыши
@@ -112,7 +131,26 @@ namespace TicTacToe
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            Field.DrawField(DrawHelper);
+            if(!fin) // если игра ещё не закончена рисуем игровое поле 
+                Field.DrawField(DrawHelper);
+            else // иначе показываем красивую картинку и объявляем победителя
+            {
+                string result;
+                if (Field.PointsX - Field.PointsO < 0)
+                {
+                    result = "Победил игрок 0";
+                }
+                else if (Field.PointsX - Field.PointsO > 0)
+                {
+                    result = "Победил игрок X";
+                }
+                else
+                {
+                    result = "Ничья";
+                }
+                Window.Title = $"{result} | Игрок X - {Field.PointsX} | Игрок О - {Field.PointsO}";
+                spriteBatch.Draw(FinBackgroundSprite, new Vector2(0,0), Color.White);
+            }
             spriteBatch.End();
             base.Draw(gameTime);
         }
