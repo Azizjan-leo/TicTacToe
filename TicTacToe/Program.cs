@@ -20,13 +20,13 @@ namespace TicTacToe
         static void Main()
         {
             AllocConsole();
-            int n = 20;
-            //while (n < 20 || n > 40)
-            //{
-            //    Console.Title = "Введите размерность (19<N<41)";
-            //    n = int.Parse(Console.ReadLine());
-            //}
-         
+            int n;
+            do
+            {
+                Console.Title = "Введите размерность (19<N<41)";
+                n = int.Parse(Console.ReadLine());
+            } while (n < 20 || n > 40); // пока вводится некорректное значение будем показывать консоль
+
             using (var game = new Game1(n))
                 game.Run();
         }
