@@ -1,12 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TicTacToe.Enginge
 {
+    // перечисление возможных состояний для ячейки
     public enum CellState { Default, X, O, VerticalX, VerticalO, HorizontalX, HorizontalO, LeftX, RightX, LeftO, RightO }
     public class Cell
     {

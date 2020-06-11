@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TicTacToe.Enginge
+﻿namespace TicTacToe.Enginge
 {
     public class Field
     {
@@ -106,6 +100,9 @@ namespace TicTacToe.Enginge
             bool result = false;
             CellState tmp = cell.State; // запоминаем состояние текущей ячейки
             // проверки от нажатой ячейки
+            // если линия есть, то присваиваем всем трём ячейкам одно состояние
+            // присваиваемое состояние зависит от предыдущего состояния ячейки
+            // если там был Х, то ставим сотояние определенный в зависимости от направления Х (с O по аналогии)
             if (cell.I < Matrix.GetLength(0) - 1 && Matrix[cell.I + 1, cell.J].State == cell.State && Matrix[cell.I + 2, cell.J].State == cell.State) // вправо по горизонтали
             {
                 Matrix[cell.I, cell.J].State = Matrix[cell.I + 1, cell.J].State = Matrix[cell.I + 2, cell.J].State = (cell.State == CellState.X) ? CellState.HorizontalX : CellState.HorizontalO;

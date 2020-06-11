@@ -11,7 +11,7 @@ namespace TicTacToe
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        SpriteBatch spriteBatch; // то, что рисует
 
         bool mRealesed = true; // кнопка мыши (не зажата)
 
