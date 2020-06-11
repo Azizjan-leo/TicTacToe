@@ -95,34 +95,61 @@ namespace TicTacToe.Enginge
             return false;
         }
 
+        /// <summary>
+        /// Проверяет образовалась ли линия
+        /// Если да, состояние задействованных ячеек
+        /// </summary>
+        /// <param name="cell">Нажатая ячейка</param>
+        /// <returns>True, если образовалась линия</returns>
         public bool TryLine(Cell cell)
         {
             bool result = false;
-            CellState tmp = cell.State;
+            CellState tmp = cell.State; // запоминаем состояние текущей ячейки
+            // проверки от нажатой ячейки
             if (cell.I < Matrix.GetLength(0) - 1 && Matrix[cell.I + 1, cell.J].State == cell.State && Matrix[cell.I + 2, cell.J].State == cell.State) // вправо по горизонтали
             {
                 Matrix[cell.I, cell.J].State = Matrix[cell.I + 1, cell.J].State = Matrix[cell.I + 2, cell.J].State = (cell.State == CellState.X) ? CellState.HorizontalX : CellState.HorizontalO;
                 result = true;
             }
-            if (cell.I > 1 && Matrix[cell.I - 1, cell.J].State == cell.State && Matrix[cell.I - 2, cell.J].State == cell.State) // влево по горизонтали
+            else if (cell.I > 1 && Matrix[cell.I - 1, cell.J].State == cell.State && Matrix[cell.I - 2, cell.J].State == cell.State) // влево по горизонтали
             {
                 Matrix[cell.I, cell.J].State = Matrix[cell.I - 1, cell.J].State = Matrix[cell.I - 2, cell.J].State = (cell.State == CellState.X) ? CellState.HorizontalX : CellState.HorizontalO;
                 result = true;
             }
-            if (cell.J < Matrix.GetLength(1) - 1 && Matrix[cell.I, cell.J + 1].State == cell.State && Matrix[cell.I, cell.J + 2].State == cell.State) // вниз по вертикали
+            else if (cell.J < Matrix.GetLength(1) - 1 && Matrix[cell.I, cell.J + 1].State == cell.State && Matrix[cell.I, cell.J + 2].State == cell.State) // вниз по вертикали
             {
                 Matrix[cell.I, cell.J].State = Matrix[cell.I, cell.J + 1].State = Matrix[cell.I, cell.J + 2].State = (cell.State == CellState.X) ? CellState.VerticalX : CellState.VerticalO;
                 result = true;
             }
-            if (cell.J > 1 && Matrix[cell.I, cell.J - 1].State == cell.State && Matrix[cell.I, cell.J - 2].State == cell.State) // вверх по вертикали
+            else if (cell.J > 1 && Matrix[cell.I, cell.J - 1].State == cell.State && Matrix[cell.I, cell.J - 2].State == cell.State) // вверх по вертикали
             {
                 Matrix[cell.I, cell.J].State = Matrix[cell.I, cell.J - 1].State = Matrix[cell.I, cell.J - 2].State = (cell.State == CellState.X) ? CellState.VerticalX : CellState.VerticalO;
+                result = true;
+            }
+            else if (cell.I > 1 && cell.J > 1 && Matrix[cell.I - 1, cell.J - 1].State == cell.State && Matrix[cell.I - 2, cell.J - 2].State == cell.State) // вверх и влево
+            {
+                Matrix[cell.I, cell.J].State = Matrix[cell.I - 1, cell.J - 1].State = Matrix[cell.I - 2, cell.J - 2].State = (cell.State == CellState.X) ? CellState.LeftX : CellState.LeftO;
+                result = true;
+            }
+            else if (cell.I < Matrix.GetLength(0) - 2 && cell.J < Matrix.GetLength(1) - 2 && Matrix[cell.I + 1, cell.J + 1].State == cell.State && Matrix[cell.I + 2, cell.J + 2].State == cell.State) // вниз и вправо
+            {
+                Matrix[cell.I, cell.J].State = Matrix[cell.I + 1, cell.J + 1].State = Matrix[cell.I + 2, cell.J + 2].State = (cell.State == CellState.X) ? CellState.LeftX : CellState.LeftO;
+                result = true;
+            }
+            else if (cell.I < Matrix.GetLength(0) - 2 && cell.J > 1 && Matrix[cell.I + 1, cell.J - 1].State == cell.State && Matrix[cell.I + 2, cell.J - 2].State == cell.State) // вверх и вправо
+            {
+                Matrix[cell.I, cell.J].State = Matrix[cell.I + 1, cell.J - 1].State = Matrix[cell.I + 2, cell.J - 2].State = (cell.State == CellState.X) ? CellState.RightX : CellState.RightO;
+                result = true;
+            }
+            else if (cell.I > 1 && cell.J < Matrix.GetLength(1) && Matrix[cell.I - 1, cell.J + 1].State == cell.State && Matrix[cell.I - 2, cell.J + 2].State == cell.State) // вверх и вправо
+            {
+                Matrix[cell.I, cell.J].State = Matrix[cell.I - 1, cell.J + 1].State = Matrix[cell.I - 2, cell.J + 2].State = (cell.State == CellState.X) ? CellState.RightX : CellState.RightO;
                 result = true;
             }
             // если игрок соединил 3 клетки,
             if (result == true)
             {
-                // добавим ему очко
+                // определяем игрока, сделавшего ход и добавим ему очко
                 if (tmp == CellState.X)
                     PointsX++;
                 else

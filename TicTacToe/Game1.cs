@@ -16,7 +16,7 @@ namespace TicTacToe
         bool mRealesed = true; // кнопка мыши (не зажата)
 
         Field Field;
-        Texture2D DefaultSprite, XSprite, OSprite, VerticalXSprite, VerticalOSprite, HorizontalXSprite, HorizontalOSprite, FinBackgroundSprite; // Спрайты
+        Texture2D DefaultSprite, XSprite, OSprite, VerticalXSprite, VerticalOSprite, HorizontalXSprite, HorizontalOSprite, LeftXSprite, RightXSprite, LeftOSprite, RightOSprite, FinBackgroundSprite; // Спрайты
         DrawHelper DrawHelper;
 
         bool fin = false; // флаг окончания игры
@@ -63,10 +63,14 @@ namespace TicTacToe
             HorizontalOSprite = Content.Load<Texture2D>("horizontalO");
             VerticalXSprite = Content.Load<Texture2D>("verticalX");
             VerticalOSprite = Content.Load<Texture2D>("verticalO");
+            LeftXSprite = Content.Load<Texture2D>("leftX");
+            RightXSprite = Content.Load<Texture2D>("rightX");
+            LeftOSprite = Content.Load<Texture2D>("leftO"); 
+            RightOSprite = Content.Load<Texture2D>("rightO");
             XSprite = Content.Load<Texture2D>("x");
             OSprite = Content.Load<Texture2D>("o");
             FinBackgroundSprite = Content.Load<Texture2D>("FinBackgroundSprite");
-            DrawHelper = new DrawHelper(spriteBatch, DefaultSprite, XSprite, OSprite, VerticalXSprite, VerticalOSprite, HorizontalXSprite, HorizontalOSprite);
+            DrawHelper = new DrawHelper(spriteBatch, DefaultSprite, XSprite, OSprite, VerticalXSprite, VerticalOSprite, HorizontalXSprite, HorizontalOSprite, LeftXSprite, RightXSprite, LeftOSprite, RightOSprite);
         }
 
         /// <summary>

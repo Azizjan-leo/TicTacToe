@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TicTacToe.Enginge
 {
-    public enum CellState { Default, X, O, VerticalX, VerticalO, HorizontalX, HorizontalO }
+    public enum CellState { Default, X, O, VerticalX, VerticalO, HorizontalX, HorizontalO, LeftX, RightX, LeftO, RightO }
     public class Cell
     {
         public int I, J; // индекс (местонахождение в матрице)
